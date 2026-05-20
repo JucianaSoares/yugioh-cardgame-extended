@@ -1,0 +1,472 @@
+body{
+  cursor: url("../assets/cursor/yugicursor.png"),default;
+}
+button,
+a,
+img:hover,
+button:hover,
+a:hover{
+  cursor: url("../assets/cursor/yamiyugicursorGLOW.png"),auto;
+}
+.win-button { background-color: #2ecc71 !important; color: white; }
+.lose-button { background-color: #e74c3c !important; color: white; }
+.draw-button { background-color: #f1c40f !important; color: black; }
+
+.bg-video{
+  position: absolute;
+  z-index: -2;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.bg-video video{
+  height: 100vh;
+}
+
+.bg-video::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(
+  90deg,
+  rgba(0,0,0,1)0%,
+  rgba(0,0,0,0.8)50%,
+  rgba(0,0,0,1)100%);
+}
+
+.container{
+  position: relative;
+  z-index: 3;
+  display: flex;
+  height: 100vh;
+}
+.container__left{
+  width: 35%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-around;
+}
+.container__right{
+  width: 65%;
+}
+.score_box {
+  background-color: #fff;
+  padding: 15px;
+  display: flex;
+  flex-direction: column; /* Empilha tudo */
+  align-items: center;
+  gap: 10px; /* Espaço igual entre as 3 linhas */
+  border: 3px solid #000;
+}
+
+.score_box p {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
+  margin: 0; /* Remove margens extras que o <p> traz por padrão */
+}
+
+#score_points, #lp_points {
+  font-size: 0.7rem;
+  line-height: 1.5; /* Aumenta o espaço entre a linha de cima e a de baixo */
+  letter-spacing: 1.5px;
+  text-align: center;
+  width: 100%;          /* Ocupa a largura toda para alinhar bem */
+}
+/* Opcional: cores diferentes para destacar os LPs */
+#lp_points {
+  color: #e74c3c; /* Um tom de vermelho/laranja para os Life Points */
+}
+
+.frame{
+  border: 3px solid #000;
+  border-radius: 5px;
+}
+.card_details{
+  background-color: #fff;
+  padding: 10px;/* Aumentei um pouco o respiro interno */
+  display:flex;
+  border: 3px solid #000;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;/* Centraliza melhor verticalmente */
+   min-height:10rem;/* Aumentei a altura para a fonte respirar */
+  width: 100%;
+  gap: 5px; /* Cria um espaço fixo entre o Nome e o Tipo */
+}
+/* Deixar os números de ATK/DEF um pouco diferentes para destacar */
+#card-atk, #card-def {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  color: #e74c3c; /* Vermelho para ATK */
+  margin: 2px 0;
+}
+
+#card-def {
+  color: #3498db; /* Azul para DEF */
+}
+
+#card-name{
+  font-size: 0.7rem;/* Reduzi um pouco para não cortar nas laterais */
+  letter-spacing: 1px; /* Dá espaço entre as letras */
+  text-align: center;
+  text-transform: uppercase;
+}
+#card-type{
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  color: #333;
+}
+.card-box__container{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.3rem;
+}
+.card-versus_container{
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 0.1rem;
+  height: 300px;
+  gap: 20px;/* Cria espaço entre as cartas e o botão automaticamente */
+}
+.versus-top, .versus-buttom{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.versus-buttom{
+ width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px; /* Garante um espaço reservado para o botão */
+}
+#next-duel{
+  display: none;
+  font-family: 'Press Start 2P', cursive; /* Garante a fonte do tema */
+  font-size: 0.8rem;
+  padding: 10px 20px;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px #000; /* Dá profundidade e melhora a leitura */
+  white-space: nowrap;
+    /* Centralização garantida pelo container pai flex */
+    margin: 0 auto;
+}
+.card-box{
+  height: 9rem;
+  width: 100%;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content:space-around;
+}
+
+
+.card{
+  transition: transform 0.2s;
+}
+.card:hover{
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 10px #ffcc00); /* Cria um brilho dourado */
+  border-radius: 10px;
+}
+.card-infield{
+ perspective: 1000px; /* Dá a sensação de profundidade no giro */
+  width: 100px;
+    height: 140px; /* Altura fixa ou proporcional ajuda a manter a forma */
+  border-radius: 8px;
+  border: none !important;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    /*border: 2px solid white;*/
+    background: none !important;
+}
+.card-infield img {
+    width: 100%;
+    height: 100%;
+     /* Prepara a imagem para a transição suave */
+    transition: transform 0.6s, ease-in-out;
+    transform-style: flat; /* Necessário para o efeito 3D */
+    
+    backface-visibility: hidden; /* Esconde a parte de trás "real" da imagem */
+    object-fit: stretch; /* Garante que a carta inteira apareça sem esticar */
+    transition: transform 0.3s ease;
+}
+.card, .card-infield img {
+    border: 2px solid #f1c40f; /* Cor amarela do Exodia */
+    border-radius: 4px;
+}
+
+/* Classe que esconde a carta (mostra o verso) */
+.card-hidden {
+    transform: rotateY(180deg); /* Começa girada em 180 graus */
+}
+
+/* Classe que revela a carta (volta para o ângulo 0) */
+.card-reveal {
+    transform: rotateY(0deg) !important;
+}
+
+/* Ajuste na classe de defesa para funcionar com o flip */
+/* Se a carta estiver em defesa E escondida, ela gira nos dois eixos */
+.card-hidden.defense {
+    transform: rotateY(180deg) rotateZ(90deg) !important;
+}
+
+/* Quando revelada em defesa, mantém apenas o giro da defesa */
+.card-reveal.defense {
+    transform: rotateY(0deg) rotateZ(90deg) !important;
+}
+
+.versus-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.versus-top > img {
+    width: 80px; /* Tamanho fixo para o ícone não variar tanto */
+    margin: 0 20px;
+}
+
+/* Quando a carta estiver em defesa, ela precisa girar sem quebrar o layout */
+.defense {
+   transform: rotate(90deg) scale(0.8) !important;
+     /* O scale evita que a carta bata nas bordas ao girar */
+    transition: transform 0.3s ease;
+}
+/* Título dentro do menu */
+#summon-menu h3 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  color: white;
+  margin-bottom: 20px;
+  text-align: center;
+}
+/* Isso vai "anular" o comportamento padrão da classe rpgui-container apenas no menu */
+/* Usamos o ID + a Classe para ganhar de qualquer outra regra */
+#summon-menu.rpgui-container {
+    position: fixed !important;
+    /* Forçamos o uso da Janela do Navegador como referência */
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    
+    /* Z-index para furar o vídeo e os frames (o maior possível) */
+    z-index: 2147483647 !important;
+    
+    /* Forçamos o menu a ser um container flexível */
+    display: none; /* JS muda para flex */
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    /* Tamanho fixo para não esticar em Laptops */
+    width: 280px !important;
+    height: auto !important;
+    min-height: 160px !important;
+    padding: 20px !important;
+    
+    /* O SEGREDO para os botões não saírem da caixa */
+    box-sizing: border-box !important;
+    background: #000 !important;
+    border: 4px solid #e2b31a !important;
+}
+
+/* Área dos botões */
+.menu-buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+    width: 100% !important;
+    justify-content: center !important;
+    margin-top: 15px !important;
+}
+
+/* Ajuste nos botões para caberem no estilo RPGUI sem vazar */
+.menu-buttons button {
+    flex: 1 !important; /* Divide o espaço igualmente */
+    min-width: 0 !important; /* Permite encolher */
+    padding: 10px 5px !important;
+    font-size: 8px !important; /* Fonte pequena estilo retrô */
+}
+.battle_log {
+ font-family: "Press Start 2P", cursive;
+  background-color: #fff;
+  padding: 10px;
+  margin-top: 10px;
+  min-height: 80px; /* Espaço para umas 3 linhas de texto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 3px solid #000;
+}
+
+#log-text {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px; /* Fonte pequena para caber a narração */
+  line-height: 1.5;
+  color: #333;
+}
+/* Efeito de tremer a tela */
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+/* Efeito de vibração para quando alguém perde vida */
+.damage-shake {
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    filter: sepia(1) saturate(5) hue-rotate(-50deg); /* Deixa a área avermelhada momentaneamente */
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+/* Brilho Dourado para as Lendárias */
+.card-legendary {
+    box-shadow: 0 0 15px 5px rgba(241, 196, 15, 0.85) !important;
+    border: 2px solid #f1c40f !important;
+    animation: pulseGlow 2s infinite alternate !important;
+    position: relative;
+    z-index: 10; /* Garante que fique por cima do tabuleiro */
+}
+
+/* Brilho Azul para as Raras */
+.card-rare {
+    box-shadow: 0 0 15px 5px rgba(52, 152, 219, 0.85) !important;
+    border: 2px solid #3498db !important;
+    position: relative;
+    z-index: 10;
+}
+
+/* Animação de pulsação para o brilho lendário */
+@keyframes pulseGlow {
+    0% { transform: scale(1); box-shadow: 0 0 15px 5px rgba(241, 196, 15, 0.75); }
+    100% { transform: scale(1.02); box-shadow: 0 0 25px 10px rgba(241, 196, 15, 0.9); }
+}
+
+/* Efeito para o Log de mensagens */
+#status-text {
+    transition: all 0.3s ease;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+/* Aplicaremos essa classe via JS ou se o nome da carta for Exodia */
+.exodia-glow {
+    animation: gold-glow 1s infinite;
+    border: 2px solid #f1c40f !important;
+}
+
+/* Quando a tela for pequena... */
+@media (max-width: 768px) {
+  
+  /* 1. O container deixa de ser flex (lado a lado) e vira coluna */
+  .container {
+    flex-direction: column;
+    height: auto; /* Permite que a página cresça para baixo */
+  }
+
+  /* 2. A parte esquerda (detalhes) fica no topo e ocupa a largura toda */
+  .container__left {
+    width: 100%;
+    min-width: auto;
+    height: auto;
+    padding: 10px 0;
+    order: 1; /* Garante que os detalhes apareçam primeiro ou por último */
+  }
+
+  /* 3. A parte direita (tabuleiro) ocupa a largura toda */
+  .container__right {
+    width: 100%;
+    order: 2;
+  }
+#player-cards, #computer-cards {
+        height: 150px; /* Diminui a área das cartas */
+    }
+  /* 4. Ajustamos as cartas para não ficarem gigantes no telemóvel */
+  .card-box img {
+    height: 80px; /* Diminuímos o tamanho das cartas na mão */
+  }
+.card-infield img {
+        width: 80px; /* Reduz o tamanho das cartas no campo */
+        height: 115px;
+    }
+
+ .versus-top > img {
+        height: 60px;
+    }
+  /* 5. Ocultamos o vídeo de fundo em telemóveis para poupar bateria e dados */
+  .bg-video {
+    display: none;
+  }
+  
+  body {
+    background-color: #000; /* Fundo preto sólido no telemóvel */
+  }
+
+  /* 6. Ajustamos a altura do container de versus */
+  .card-versus_container {
+    height: auto;
+    margin: 20px 0;
+  }
+
+  .card-box__container {
+    height: auto;
+    justify-content: center;
+    gap: 20px;
+  }
+  .card_details {
+    height: 5rem; /* Mais compacto no mobile */
+  }
+  
+  #card-image {
+    display: none; /* Oculta a imagem grande da carta no mobile para ganhar espaço */
+  }
+
+  .card-box {
+    height: 100px; /* Ou a altura que desejar para a mão do jogador */
+    min-height: 100px; 
+    /*border: 3px solid #000; /* Força a borda a aparecer caso tenha sumido */
+    width: 100%;
+    display: flex;
+    margin: 10px 0;
+  }
+ .card-infield {
+    height: 140px;
+    width: 95px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* REMOVA a borda daqui ou coloque como transparente */
+    border: 2px solid transparent !important; 
+    background-color: transparent !important;
+  }
+}
