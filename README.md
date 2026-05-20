@@ -1,5 +1,7 @@
 # 🃏 Yu-Gi-Oh! Card Game - Edition: Survival Duel
 
+[link do projeto](https://jucianasoares.github.io/yugioh-cardgame-extended/)
+
 Este é um projeto desenvolvido com base no desafio de código da **DIO (Digital Innovation One)**, totalmente customizado, expandido e otimizado com mecânicas avançadas de jogabilidade, persistência de dados e efeitos visuais dinâmicos.
 
 ## 🚀 Novas Funcionalidades (Além do Escopo Original)
